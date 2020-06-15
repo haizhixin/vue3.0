@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
 </template>
@@ -23,5 +23,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+ 
 }
 </style>
