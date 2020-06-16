@@ -7,16 +7,16 @@ const baseHandler = {
      track(target,key)
      return typeof res ==='object'?reactive(res):res
     },
-    set() {
+    set(target,key,val) {
         const info = {oldValue:target[key],newVlaue:val}
         // target[key]= val
-        const res = Reflect.set(target,key,val)
+        Reflect.set(target,key,val)
 
         trigger(target,key,info)
       // 响应式通知变化
     }
 }
-function reactive() {
+function reactive(target) {
     //vue3要考虑map这些对象
     const observed = new Proxy(target,baseHandler)
     // 返回proxy代理后的对象
@@ -24,7 +24,7 @@ function reactive() {
 
 }
 
-function computed() {
+function computed(fn,options={}) {
     // 特殊的effect
     const runner = effect(fn,{computed:true,lazy:true})
     return {
@@ -33,7 +33,6 @@ function computed() {
             return runner()
         }
     }
-
 }
 
 function effect(fn,options={}) {
@@ -41,7 +40,6 @@ function effect(fn,options={}) {
     // 创建依赖函数
     let e = createReactiveEffect(fn,options)
     // lazy是特殊的computed配置
-
     if(!options.lazy){
         // 不是懒执行
         e()
@@ -49,9 +47,10 @@ function effect(fn,options={}) {
      return e
 }
 function createReactiveEffect(fn,options) {
+    
     // 构造固定格式的effect
     const effect = function effect(...args) {
-        return run(effect,fn,arg)
+        return run(effect,fn,args)
     }
 
     // effect的配置
@@ -59,8 +58,8 @@ function createReactiveEffect(fn,options) {
     effect.computed = options.computed
     effect.lazy = options.lazy
     return effect
-
 }
+
 function run (effect,fn,args) {
     // 真正执行effect
     try {
@@ -115,7 +114,7 @@ function track(target,key) {
 // }
 
 
-function trigger() {
+function trigger(target,key) {
 //数据变化后,通知更新 执行effect
 // 找到依赖
 const depMap = targetMap.get(target);

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="app"></div>
-    <button id="btn"></button>
+    <button id="btn">点我加1</button>
     
     <script>
         const root = document.getElementById('app')
@@ -22,12 +22,12 @@
         const double = computed(()=>obj.version*2)
 
         effect(()=>{
-            root.innerHTML =`<h1>${obj.name}现在是测试体验版本${obj.version}</h1>`
+            root.innerHTML =`<h1>${obj.name}现在是测试体验版本${obj.version},以后就要变成双份${double.value}</h1>`
         })
 
         btn.addEventListener('click',()=>{
             //只操作js对象引起dom变化
-            obj.age+=1
+            obj.version+=1
         },false)
     </script>
     
