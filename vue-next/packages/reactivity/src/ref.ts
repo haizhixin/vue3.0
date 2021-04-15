@@ -155,7 +155,7 @@ type BaseTypes = string | number | boolean
  * augmentations in its generated d.ts, so we have to manually append them
  * to the final generated d.ts in our build process.
  */
-export interface RefUnwrapBailTypes {}
+export interface RefUnwrapBailTypes { }
 
 export type UnwrapRef<T> = T extends ComputedRef<infer V>
   ? UnwrapRefSimple<V>
